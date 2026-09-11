@@ -9,10 +9,6 @@ typedef struct{
 	int num_of_seats;
 }pd;
 
-
-
-
-
 void reservation(void);
 void viewdetails(void);
 void cancel(void);
@@ -97,7 +93,7 @@ void viewdetails(void)
     printf("\n1007\tKeystone Express\tBoston To Washington\t3500\t\t1pm");
     printf("\n1008\tKeystone Express\tWashington To Boston\t3500\t\t4pm");
     printf("\n1009\tMeteor Express\t\tBoston To Miami\t\t6000\t\t3.35pm");
-    printf("\n1009\tMeteor Express\t\tMiami To Boston\t\t6000\t\t4.15pm");
+    printf("\n1010\tMeteor Express\t\tMiami To Boston\t\t6000\t\t4.15pm");
 
 }
 
@@ -108,14 +104,16 @@ void reservation(void)
 	char confirm;
 	int i=0;
 	float charges;
-	pd passdetails;
+	pd passdetails;  
 	FILE *fp;
 	fp=fopen("seats_reserved.txt","a");
 	system("cls");
 
 	printf("\nEnter Your Name:> ");
 	fflush(stdin);
-	gets(passdetails.name);
+	// refactor - replace gets() to fgets(), to limit input size
+	fgets(passdetails.name, sizeof(passdetails.name), stdin); 
+	passdetails.name[strcspn(passdetails.name, "\n")] = '\0';
 
 	printf("\nEnter Number of seats:> ");
 	scanf("%d",&passdetails.num_of_seats);
@@ -207,6 +205,7 @@ float charge(int train_num,int num_of_seats)
 	{
 		return(6000.0*num_of_seats);
 	}
+	return 0.0; //Refactor: Add default return value so the function will returns value
 }
 
 
